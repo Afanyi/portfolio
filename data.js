@@ -15,8 +15,8 @@ const portfolioData = {
         },
         nationality: "Cameroonian",
         dateOfBirth: "August 1, 2002",
-        githubUrl: "https://github.com",
-        linkedinUrl: "https://linkedin.com"
+        githubUrl: "https://github.com/Afanyi",
+        linkedinUrl: "https://www.linkedin.com/in/afanyi-blasius-fornge-7595a5226"
     },
 
     about: [
