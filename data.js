@@ -36,7 +36,21 @@ const portfolioData = {
 
     experience: [
         {
-            title: "Software Engineering Intern - Pizza Backend Service",
+            title: "Werkstudent (Ferienjob) – Data Science",
+            company: "Sanofi – TMU PMX (DMPK)",
+            location: "Frankfurt, Germany",
+            period: "August 2025 - October 2025",
+            description: [
+                "Supported PBPK modeling by updating drug models (Alfentanil, Itraconazole, Omeprazole, Verapamil) with new expression profiles",
+                "Performed Parameter Identification and model fitting, adjusting parameters for improved prediction accuracy",
+                "Plotted and analyzed PK parameters (Cmax, AUC) comparing old, new, PI, and observed data",
+                "Automated data processing and visualization workflows in R (RStudio, VS Code)",
+                "Applied PK-Sim and MoBi for model simulations and used Git for version control"
+            ],
+            tags: ["R", "RStudio", "VS Code", "PK-Sim", "MoBi", "Git", "Data Science", "PBPK Modeling"]
+        },
+        {
+            title: "Software Engineering - Pizza Backend Service",
             company: "Hochschule Darmstadt",
             location: "Darmstadt, Germany",
             period: "October 2024 - Present",
@@ -50,7 +64,7 @@ const portfolioData = {
             tags: ["Python", "FastAPI", "PostgreSQL", "Docker", "Kubernetes", "CI/CD"]
         },
         {
-            title: "Game Development Intern - DungeonCrawler",
+            title: "Game Development - DungeonCrawler",
             company: "Hochschule Darmstadt",
             location: "Darmstadt, Germany",
             period: "April 2024 - July 2024",
