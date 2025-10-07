@@ -1,28 +1,29 @@
 # 🌐 Personal Portfolio Website
 
-This is a **personal portfolio project** showcasing skills, experience, education, and contact information in a clean and responsive layout. The portfolio is built using **HTML, CSS, and JavaScript**, with data dynamically loaded from a `data.js` file.
+This is a **personal portfolio project** showcasing skills, experience, education, and contact information in a clean and responsive layout. The portfolio is built using **HTML, CSS, and JavaScript**, with data dynamically loaded from **language-specific files**.
 
 ---
 
 ## 🚀 Features
 
-- **Responsive design** that works on desktop and mobile  
-- **Dynamic content** powered by `data.js` (personal info, skills, experience, etc.)  
-- **Hero section** with introduction and call-to-action buttons  
-- **About section** with personal description  
-- **Experience & Education sections** with structured layouts  
-- **Skills & Languages sections** to highlight technical and communication abilities  
-- **Contact section** with email, phone, location, and social links  
-- **Download CV button** and **Get in Touch** link  
+- **Responsive design** that works on desktop and mobile
+- **Dynamic, multi-language content** (EN / DE / FR) via `/lang/data-*.js`
+- **Language switcher** that remembers your choice in `localStorage`
+- **Hero section** with introduction and call-to-action buttons
+- **About section** with personal description
+- **Experience & Education sections** with structured layouts
+- **Skills & Languages sections** to highlight technical and communication abilities
+- **Contact section** with email, phone, location, and social links
+- **Download CV** button and **Get in Touch** link
 
 ---
 
 ## 🛠️ Technologies Used
 
-- **HTML5** – Structure  
-- **CSS3** – Styling & layout (responsive, animations, gradients)  
-- **JavaScript (ES6)** – Dynamic rendering & interactivity  
-- **Data.js** – Stores all portfolio data for easy customization  
+- **HTML5** – Structure
+- **CSS3** – Styling & layout (responsive, animations, gradients)
+- **JavaScript (ES Modules)** – Dynamic rendering & interactivity
+- **Language data files** – `/lang/data-en.js`, `/lang/data-de.js`, `/lang/data-fr.js`
 
 ---
 
@@ -30,11 +31,15 @@ This is a **personal portfolio project** showcasing skills, experience, educatio
 
 ```
 portfolio/
-│── index.html       # Main HTML file
-│── styles.css       # Stylesheet (not uploaded but referenced)
-│── data.js          # Portfolio data (name, bio, skills, etc.)
-│── script.js        # JavaScript logic for rendering data
-│── favico.png       # Favicon (optional)
+│── index.html # Main HTML file (loads script.js as an ES module)
+│── styles.css # Stylesheet
+│── script.js # Rendering logic + dynamic language loader
+│── main_cv.pdf # CV (download link)
+│── favico.png # Favicon
+└── lang/ # Language-specific portfolio data
+├── data-en.js # English
+├── data-de.js # Deutsch
+└── data-fr.js # Français
 ```
 
 ---
