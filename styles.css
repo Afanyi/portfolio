@@ -655,3 +655,20 @@ body {
         display: none;
     }
 }
+
+/* Language switcher */
+.language-switcher { display: flex; gap: .5rem; }
+.lang-btn {
+    background: transparent;
+    border: 1px solid hsl(var(--primary));
+    color: hsl(var(--foreground));
+    border-radius: var(--radius);
+    padding: .25rem .6rem;
+    cursor: pointer;
+    transition: var(--transition);
+}
+.lang-btn:hover,
+.lang-btn.active {
+    background: hsl(var(--primary));
+    color: hsl(var(--primary-foreground));
+}
