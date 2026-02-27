@@ -156,7 +156,7 @@ export default {
         {
             degree: "GCE A Level Certificate (Abitur)",
             institution: "College Saint Laurent",
-            period: "September 2018 - June 2022",
+            period: "September 2018 - June 2020",
             location: "Douala, Cameroon"
         },
         {

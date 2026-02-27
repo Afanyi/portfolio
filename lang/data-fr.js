@@ -155,7 +155,7 @@ export default {
         {
             degree: "GCE A Level (équivalent bac)",
             institution: "College Saint Laurent",
-            period: "Septembre 2018 - Juin 2022",
+            period: "Septembre 2018 - Juin 2020",
             location: "Douala, Cameroun"
         },
         {
