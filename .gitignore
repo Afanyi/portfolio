@@ -1,0 +1,11 @@
+# IDE files
+.idea/
+
+# Local dependencies
+node_modules/
+package-lock.json
+
+# Unused local assets/documents
+Zusatz.pdf
+ruck.jpeg
+vor.jpeg

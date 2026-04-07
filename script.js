@@ -1,109 +1,284 @@
-// script.js (ES Module)
 let portfolioData = null;
 
+const githubState = {
+    username: null,
+    repos: [],
+    status: "idle"
+};
+
 const supportedLangs = ["en", "de", "fr"];
+const observedElements = new WeakSet();
+const observedProgressBars = new WeakSet();
+
 let currentLang =
     localStorage.getItem("portfolioLang") ||
     (navigator.language || "en").slice(0, 2);
+
 if (!supportedLangs.includes(currentLang)) currentLang = "en";
 
-// Helper: set text / html safely
-const setText = (sel, text) => {
-    const el = document.querySelector(sel);
-    if (el && text != null) el.textContent = text;
-};
-const setHTML = (sel, html) => {
-    const el = document.querySelector(sel);
-    if (el && html != null) el.innerHTML = html;
+const setText = (selector, text) => {
+    const element = document.querySelector(selector);
+    if (element && text != null) element.textContent = text;
 };
 
-// Wrap the last word in gradient span (keeps your styling)
+const setHTML = (selector, html) => {
+    const element = document.querySelector(selector);
+    if (element && html != null) element.innerHTML = html;
+};
+
+const setMetaContent = (selector, content) => {
+    const meta = document.querySelector(selector);
+    if (meta && content != null) meta.setAttribute("content", content);
+};
+
 function gradientize(title) {
     if (!title) return "";
+
     const parts = title.trim().split(" ");
     if (parts.length === 1) return `<span class="text-gradient">${parts[0]}</span>`;
-    const last = parts.pop();
-    return `${parts.join(" ")} <span class="text-gradient">${last}</span>`;
+
+    const lastWord = parts.pop();
+    return `${parts.join(" ")} <span class="text-gradient">${lastWord}</span>`;
 }
 
-// Dynamic import of the language data file
-async function loadLanguage(lang) {
+function getGithubUsername(githubUrl) {
     try {
-        const mod = await import(`./lang/data-${lang}.js`);
-        portfolioData = mod.default; // data object
-        localStorage.setItem("portfolioLang", lang);
-        document.documentElement.setAttribute("lang", lang);
-
-        // Visually mark active language button
-        document.querySelectorAll(".lang-btn").forEach(b =>
-            b.classList.toggle("active", b.dataset.lang === lang)
-        );
-
-        populatePortfolio();
-    } catch (e) {
-        console.error("Failed to load language file:", e);
+        const url = new URL(githubUrl);
+        return url.pathname.replace(/^\/|\/$/g, "").split("/")[0] || null;
+    } catch {
+        return null;
     }
 }
 
+function formatRepoDate(dateString) {
+    return new Intl.DateTimeFormat(currentLang, {
+        year: "numeric",
+        month: "short",
+        day: "numeric"
+    }).format(new Date(dateString));
+}
+
+function createProjectMetaItem(text) {
+    const item = document.createElement("span");
+    item.className = "project-meta-item";
+    item.textContent = text;
+    return item;
+}
+
+function createProjectLink(href, text, variant = "secondary") {
+    const link = document.createElement("a");
+    link.className = `project-link ${variant === "primary" ? "project-link-primary" : ""}`.trim();
+    link.href = href;
+    link.target = "_blank";
+    link.rel = "noopener noreferrer";
+    link.textContent = text;
+    return link;
+}
+
+function createProjectCard(repo, ui) {
+    const card = document.createElement("article");
+    card.className = "project-card card";
+
+    const header = document.createElement("div");
+    header.className = "project-header";
+
+    const title = document.createElement("h3");
+    title.className = "project-title";
+
+    const titleLink = document.createElement("a");
+    titleLink.className = "project-title-link";
+    titleLink.href = repo.html_url;
+    titleLink.target = "_blank";
+    titleLink.rel = "noopener noreferrer";
+    titleLink.textContent = repo.name;
+    title.appendChild(titleLink);
+    header.appendChild(title);
+
+    if (repo.language) {
+        const language = document.createElement("span");
+        language.className = "project-language";
+        language.textContent = repo.language;
+        header.appendChild(language);
+    }
+
+    const description = document.createElement("p");
+    description.className = "project-description";
+    description.textContent = repo.description || ui.fallbackDescription;
+
+    const meta = document.createElement("div");
+    meta.className = "project-meta";
+    meta.appendChild(createProjectMetaItem(`${ui.updated}: ${formatRepoDate(repo.pushed_at)}`));
+    meta.appendChild(createProjectMetaItem(`${ui.stars}: ${repo.stargazers_count}`));
+    meta.appendChild(createProjectMetaItem(`${ui.forks}: ${repo.forks_count}`));
+
+    const links = document.createElement("div");
+    links.className = "project-links";
+    links.appendChild(createProjectLink(repo.html_url, ui.code));
+
+    const homepage = repo.homepage && repo.homepage.trim();
+    if (homepage) {
+        links.appendChild(createProjectLink(homepage, ui.live, "primary"));
+    }
+
+    card.append(header, description, meta, links);
+    return card;
+}
+
+function renderGithubProjects() {
+    const data = portfolioData;
+    if (!data) return;
+
+    const grid = document.querySelector(".projects-grid");
+    const summary = document.querySelector(".projects-summary");
+    const status = document.querySelector(".projects-status");
+
+    if (!grid || !summary || !status) return;
+
+    const ui = data.ui.projects;
+    grid.innerHTML = "";
+    summary.textContent = "";
+    status.textContent = "";
+    grid.setAttribute("aria-busy", githubState.status === "loading" ? "true" : "false");
+
+    if (githubState.status === "loading") {
+        status.textContent = ui.loading;
+        return;
+    }
+
+    if (githubState.status === "error") {
+        status.textContent = ui.error;
+        return;
+    }
+
+    if (githubState.status !== "loaded") {
+        return;
+    }
+
+    if (!githubState.repos.length) {
+        status.textContent = ui.empty;
+        return;
+    }
+
+    summary.textContent = ui.summary.replace("{count}", githubState.repos.length);
+    githubState.repos.forEach(repo => {
+        grid.appendChild(createProjectCard(repo, ui));
+    });
+
+    observeAnimatedElements(grid.querySelectorAll(".project-card"));
+}
+
+async function syncGithubProjects() {
+    const username = getGithubUsername(portfolioData?.personal?.githubUrl);
+
+    if (!username) {
+        githubState.username = null;
+        githubState.repos = [];
+        githubState.status = "error";
+        renderGithubProjects();
+        return;
+    }
+
+    if (githubState.username === username && githubState.status === "loaded") {
+        renderGithubProjects();
+        return;
+    }
+
+    if (githubState.username === username && githubState.status === "loading") {
+        renderGithubProjects();
+        return;
+    }
+
+    githubState.username = username;
+    githubState.repos = [];
+    githubState.status = "loading";
+    renderGithubProjects();
+
+    try {
+        const response = await fetch(
+            `https://api.github.com/users/${username}/repos?per_page=100&sort=pushed&direction=desc`,
+            { headers: { Accept: "application/vnd.github+json" } }
+        );
+
+        if (!response.ok) {
+            throw new Error(`GitHub API returned ${response.status}`);
+        }
+
+        const repos = await response.json();
+        githubState.repos = repos
+            .filter(repo => !repo.fork)
+            .sort((a, b) => new Date(b.pushed_at) - new Date(a.pushed_at));
+        githubState.status = "loaded";
+    } catch (error) {
+        console.error("Failed to load GitHub repositories:", error);
+        githubState.status = "error";
+    }
+
+    renderGithubProjects();
+}
+
 function populatePortfolio() {
-    const d = portfolioData;
-    if (!d) return;
+    const data = portfolioData;
+    if (!data) return;
 
-    // ====== NAV ======
-    setText('a[href="#home"]', d.ui.nav.home);
-    setText('a[href="#about"]', d.ui.nav.about);
-    setText('a[href="#experience"]', d.ui.nav.experience);
-    setText('a[href="#education"]', d.ui.nav.education);
-    setText('a[href="#skills"]', d.ui.nav.skills);
-    setText('a[href="#contact"]', d.ui.nav.contact);
+    setText('.nav-link[href="#home"]', data.ui.nav.home);
+    setText('.nav-link[href="#about"]', data.ui.nav.about);
+    setText('.nav-link[href="#projects"]', data.ui.nav.projects);
+    setText('.nav-link[href="#experience"]', data.ui.nav.experience);
+    setText('.nav-link[href="#education"]', data.ui.nav.education);
+    setText('.nav-link[href="#skills"]', data.ui.nav.skills);
+    setText('.nav-link[href="#contact"]', data.ui.nav.contact);
 
-    // Logo
     const logo = document.querySelector(".logo");
-    if (logo) logo.textContent = d.personal.name[0] + d.personal.surname[0];
+    if (logo) logo.textContent = data.personal.name[0] + data.personal.surname[0];
 
-    // ====== HERO ======
     setHTML(
         ".hero-title",
-        `${d.personal.name} <span class="text-gradient">${d.personal.surname}</span>`
+        `${data.personal.name} <span class="text-gradient">${data.personal.surname}</span>`
     );
-    setText(".hero-subtitle", d.personal.title);
-    setText(".hero-description", d.personal.description);
-    setText(".hero-buttons .btn-primary", d.ui.heroButtons.contact);
-    setText(".hero-buttons .btn-outline", d.ui.heroButtons.work);
+    setText(".hero-subtitle", data.personal.title);
+    setText(".hero-description", data.personal.description);
+    setText(".hero-buttons .btn-primary", data.ui.heroButtons.contact);
+    setText(".hero-buttons .btn-outline", data.ui.heroButtons.work);
 
-    // Socials
-    const social = document.querySelectorAll(".social-icon");
-    if (social[0]) social[0].href = `mailto:${d.personal.email}`;
-    if (social[1]) social[1].href = d.personal.githubUrl;
-    if (social[2]) social[2].href = d.personal.linkedinUrl;
+    const socialLinks = document.querySelectorAll(".social-icon");
+    if (socialLinks[0]) socialLinks[0].href = `mailto:${data.personal.email}`;
+    if (socialLinks[1]) socialLinks[1].href = data.personal.githubUrl;
+    if (socialLinks[2]) socialLinks[2].href = data.personal.linkedinUrl;
 
-    // ====== SECTIONS: TITLES + SUBTITLES ======
-    setHTML("#about .section-title", gradientize(d.ui.sections.aboutTitle));
-    setText("#about .section-subtitle", d.aboutSubtitle);
+    setHTML("#about .section-title", gradientize(data.ui.sections.aboutTitle));
+    setText("#about .section-subtitle", data.aboutSubtitle);
 
-    setHTML("#experience .section-title", gradientize(d.ui.sections.experienceTitle));
-    setText("#experience .section-subtitle", d.ui.sections.experienceSubtitle);
+    setHTML("#projects .section-title", gradientize(data.ui.sections.projectsTitle));
+    setText("#projects .section-subtitle", data.ui.sections.projectsSubtitle);
 
-    setHTML("#education .section-title", gradientize(d.ui.sections.educationTitle));
-    setText("#education .section-subtitle", d.ui.sections.educationSubtitle);
+    const githubProfileLink = document.querySelector(".github-profile-link");
+    if (githubProfileLink) {
+        githubProfileLink.href = data.personal.githubUrl;
+        githubProfileLink.textContent = data.ui.projects.profile;
+    }
 
-    setHTML("#skills .section-title", gradientize(d.ui.sections.skillsTitle));
-    setText("#skills .section-subtitle", d.ui.sections.skillsSubtitle);
+    setHTML("#experience .section-title", gradientize(data.ui.sections.experienceTitle));
+    setText("#experience .section-subtitle", data.ui.sections.experienceSubtitle);
 
-    setHTML("#languages .section-title", gradientize(d.ui.sections.languagesTitle));
-    setText("#languages .section-subtitle", d.ui.sections.languagesSubtitle);
+    setHTML("#education .section-title", gradientize(data.ui.sections.educationTitle));
+    setText("#education .section-subtitle", data.ui.sections.educationSubtitle);
 
-    setHTML("#contact .section-title", gradientize(d.ui.sections.contactTitle));
-    setText("#contact .section-subtitle", d.ui.sections.contactSubtitle);
+    setHTML("#skills .section-title", gradientize(data.ui.sections.skillsTitle));
+    setText("#skills .section-subtitle", data.ui.sections.skillsSubtitle);
 
-    // ====== ABOUT CARDS ======
+    setHTML("#languages .section-title", gradientize(data.ui.sections.languagesTitle));
+    setText("#languages .section-subtitle", data.ui.sections.languagesSubtitle);
+
+    setHTML("#contact .section-title", gradientize(data.ui.sections.contactTitle));
+    setText("#contact .section-subtitle", data.ui.sections.contactSubtitle);
+
     const aboutGrid = document.querySelector(".about-grid");
     if (aboutGrid) {
         aboutGrid.innerHTML = "";
-        d.about.forEach((item, idx) => {
+        data.about.forEach((item, index) => {
             const card = `
         <div class="card card-hover">
-          <svg class="card-icon ${idx % 2 === 0 ? "icon-primary" : "icon-accent"}"
+          <svg class="card-icon ${index % 2 === 0 ? "icon-primary" : "icon-accent"}"
                xmlns="http://www.w3.org/2000/svg" width="48" height="48"
                viewBox="0 0 24 24" fill="none" stroke="currentColor"
                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -117,11 +292,10 @@ function populatePortfolio() {
         });
     }
 
-    // ====== EXPERIENCE ======
-    const expList = document.querySelector(".experience-list");
-    if (expList) {
-        expList.innerHTML = "";
-        d.experience.forEach(exp => {
+    const experienceList = document.querySelector(".experience-list");
+    if (experienceList) {
+        experienceList.innerHTML = "";
+        data.experience.forEach(exp => {
             const card = `
         <div class="experience-card card">
           <div class="experience-icon">
@@ -140,22 +314,21 @@ function populatePortfolio() {
               <span class="meta-item">${exp.location}</span>
             </div>
             <ul class="experience-description">
-              ${exp.description.map(x => `<li>${x}</li>`).join("")}
+              ${exp.description.map(item => `<li>${item}</li>`).join("")}
             </ul>
             <div class="tags">
-              ${exp.tags.map(t => `<span class="tag">${t}</span>`).join("")}
+              ${exp.tags.map(tag => `<span class="tag">${tag}</span>`).join("")}
             </div>
           </div>
         </div>`;
-            expList.insertAdjacentHTML("beforeend", card);
+            experienceList.insertAdjacentHTML("beforeend", card);
         });
     }
 
-    // ====== EDUCATION ======
-    const eduGrid = document.querySelector(".education-grid");
-    if (eduGrid) {
-        eduGrid.innerHTML = "";
-        d.education.forEach(e => {
+    const educationGrid = document.querySelector(".education-grid");
+    if (educationGrid) {
+        educationGrid.innerHTML = "";
+        data.education.forEach(item => {
             const card = `
         <div class="education-card card">
           <div class="education-icon">
@@ -167,21 +340,20 @@ function populatePortfolio() {
             </svg>
           </div>
           <div>
-            <h3 class="education-title">${e.degree}</h3>
-            <p class="education-institution">${e.institution}</p>
-            <p class="education-meta">${e.period}</p>
-            <p class="education-meta">${e.location}</p>
+            <h3 class="education-title">${item.degree}</h3>
+            <p class="education-institution">${item.institution}</p>
+            <p class="education-meta">${item.period}</p>
+            <p class="education-meta">${item.location}</p>
           </div>
         </div>`;
-            eduGrid.insertAdjacentHTML("beforeend", card);
+            educationGrid.insertAdjacentHTML("beforeend", card);
         });
     }
 
-    // ====== SKILLS ======
     const skillsGrid = document.querySelector(".skills-grid");
     if (skillsGrid) {
         skillsGrid.innerHTML = "";
-        d.skills.forEach(s => {
+        data.skills.forEach(skill => {
             const card = `
         <div class="skill-card card">
           <div class="skill-header">
@@ -193,21 +365,20 @@ function populatePortfolio() {
                 <polyline points="8 6 2 12 8 18"/>
               </svg>
             </div>
-            <h3 class="skill-title">${s.category}</h3>
+            <h3 class="skill-title">${skill.category}</h3>
           </div>
           <div class="skill-tags">
-            ${s.items.map(i => `<span class="skill-tag">${i}</span>`).join("")}
+            ${skill.items.map(item => `<span class="skill-tag">${item}</span>`).join("")}
           </div>
         </div>`;
             skillsGrid.insertAdjacentHTML("beforeend", card);
         });
     }
 
-    // ====== LANGUAGES (human) ======
-    const langsGrid = document.querySelector(".languages-grid");
-    if (langsGrid) {
-        langsGrid.innerHTML = "";
-        d.languages.forEach(l => {
+    const languagesGrid = document.querySelector(".languages-grid");
+    if (languagesGrid) {
+        languagesGrid.innerHTML = "";
+        data.languages.forEach(language => {
             const card = `
         <div class="language-card card">
           <div class="language-header">
@@ -219,152 +390,192 @@ function populatePortfolio() {
               <path d="M2 12h20"/>
             </svg>
             <div>
-              <h3 class="language-name">${l.name}</h3>
-              <p class="language-level">${l.level}</p>
+              <h3 class="language-name">${language.name}</h3>
+              <p class="language-level">${language.level}</p>
             </div>
           </div>
           <div class="progress-bar">
-            <div class="progress-fill" style="width: ${l.proficiency}%"></div>
+            <div class="progress-fill" data-width="${language.proficiency}%"></div>
           </div>
           <ul class="language-skills">
-            ${l.skills.map(s => `<li>${s}</li>`).join("")}
+            ${language.skills.map(skill => `<li>${skill}</li>`).join("")}
           </ul>
         </div>`;
-            langsGrid.insertAdjacentHTML("beforeend", card);
+            languagesGrid.insertAdjacentHTML("beforeend", card);
         });
     }
 
-    // ====== CONTACT PANEL ======
-    // Left labels
     const labels = document.querySelectorAll(".contact-item .contact-label");
-    if (labels[0]) labels[0].textContent = d.ui.contactLabels.email;
-    if (labels[1]) labels[1].textContent = d.ui.contactLabels.phone;
-    if (labels[2]) labels[2].textContent = d.ui.contactLabels.location;
+    if (labels[0]) labels[0].textContent = data.ui.contactLabels.email;
+    if (labels[1]) labels[1].textContent = data.ui.contactLabels.phone;
+    if (labels[2]) labels[2].textContent = data.ui.contactLabels.location;
 
-    // Contact Info values
-    const emailEl = document.querySelectorAll(".contact-link")[0];
-    const phoneEl = document.querySelectorAll(".contact-link")[1];
-    if (emailEl) { emailEl.textContent = d.personal.email; emailEl.href = `mailto:${d.personal.email}`; }
-    if (phoneEl) { phoneEl.textContent = d.personal.phone; phoneEl.href = `tel:${d.personal.phone}`; }
-    setHTML(".contact-text", `${d.personal.location.street}<br>${d.personal.location.city}<br>${d.personal.location.country}`);
+    const emailLink = document.querySelectorAll(".contact-link")[0];
+    const phoneLink = document.querySelectorAll(".contact-link")[1];
+    const phoneHref = `tel:${data.personal.phone.replace(/\s+/g, "")}`;
 
-    // Right CTA: custom heading/desc from data
-    setText(".contact-cta .contact-heading", d.contact.heading);
-    setText(".contact-cta .contact-description", d.contact.description);
-
-    // CTA buttons (preserve SVG + replace label)
-    const emailBtn = document.querySelector(".btn-primary.btn-full");
-    const dlBtn = document.querySelector(".btn-outline.btn-full");
-    if (emailBtn) {
-        const svg = emailBtn.querySelector("svg");
-        emailBtn.innerHTML = (svg ? svg.outerHTML + " " : "") + d.ui.contactButtons.email;
-        emailBtn.href = `mailto:${d.personal.email}`;
-    }
-    if (dlBtn) {
-        const svg = dlBtn.querySelector("svg");
-        dlBtn.innerHTML = (svg ? svg.outerHTML + " " : "") + d.ui.contactButtons.download;
+    if (emailLink) {
+        emailLink.textContent = data.personal.email;
+        emailLink.href = `mailto:${data.personal.email}`;
     }
 
-    // ====== FOOTER ======
+    if (phoneLink) {
+        phoneLink.textContent = data.personal.phone;
+        phoneLink.href = phoneHref;
+    }
+
+    setHTML(
+        ".contact-text",
+        `${data.personal.location.street}<br>${data.personal.location.city}<br>${data.personal.location.country}`
+    );
+
+    setText(".contact-cta .contact-heading", data.contact.heading);
+    setText(".contact-cta .contact-description", data.contact.description);
+
+    const emailButton = document.querySelector(".btn-primary.btn-full");
+    const downloadButton = document.querySelector(".btn-outline.btn-full");
+
+    if (emailButton) {
+        const icon = emailButton.querySelector("svg");
+        emailButton.innerHTML = (icon ? `${icon.outerHTML} ` : "") + data.ui.contactButtons.email;
+        emailButton.href = `mailto:${data.personal.email}`;
+    }
+
+    if (downloadButton) {
+        const icon = downloadButton.querySelector("svg");
+        downloadButton.innerHTML = (icon ? `${icon.outerHTML} ` : "") + data.ui.contactButtons.download;
+    }
+
     const year = new Date().getFullYear();
-    const main = document.querySelector(".footer p");
-    const sub = document.querySelector(".footer-sub");
-    if (main) main.textContent = d.ui.footer.copyright
-        .replace("{year}", year)
-        .replace("{name}", d.personal.fullName);
-    if (sub) sub.textContent = `${d.ui.footer.nationality}: ${d.personal.nationality} | ${d.ui.footer.dob}: ${d.personal.dateOfBirth}`;
+    const footerMain = document.querySelector(".footer p");
+    const footerSub = document.querySelector(".footer-sub");
 
-    // ====== META ======
-    document.title = `${d.personal.fullName} - Software Developer Portfolio`;
-    const authorMeta = document.querySelector('meta[name="author"]');
-    if (authorMeta) authorMeta.content = d.personal.fullName;
+    if (footerMain) {
+        footerMain.textContent = data.ui.footer.copyright
+            .replace("{year}", year)
+            .replace("{name}", data.personal.fullName);
+    }
+
+    if (footerSub) {
+        footerSub.textContent =
+            `${data.ui.footer.nationality}: ${data.personal.nationality} | ` +
+            `${data.ui.footer.dob}: ${data.personal.dateOfBirth}`;
+    }
+
+    const pageTitle = `${data.personal.fullName} - ${data.personal.title}`;
+    document.title = pageTitle;
+    setMetaContent('meta[name="description"]', data.personal.description);
+    setMetaContent('meta[name="author"]', data.personal.fullName);
+    setMetaContent('meta[property="og:title"]', pageTitle);
+    setMetaContent('meta[property="og:description"]', data.personal.description);
+
+    renderGithubProjects();
+    observeAnimatedElements();
+    observeProgressBars();
 }
 
-// Navbar scroll effect
 window.addEventListener("scroll", () => {
     const navbar = document.getElementById("navbar");
-    navbar.classList.toggle("scrolled", window.scrollY > 50);
+    if (navbar) navbar.classList.toggle("scrolled", window.scrollY > 50);
 });
 
-// Smooth scroll
-document.querySelectorAll('a[href^="#"]').forEach(a => {
-    a.addEventListener("click", e => {
-        const target = document.querySelector(a.getAttribute("href"));
+document.querySelectorAll('a[href^="#"]').forEach(link => {
+    link.addEventListener("click", event => {
+        const target = document.querySelector(link.getAttribute("href"));
         if (!target) return;
-        e.preventDefault();
+
+        event.preventDefault();
         window.scrollTo({ top: target.offsetTop - 80, behavior: "smooth" });
     });
 });
 
-// Fade-in animations
 const observerOptions = { threshold: 0.1, rootMargin: "0px 0px -100px 0px" };
+
 const observer = new IntersectionObserver(entries => {
     entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            entry.target.style.opacity = "1";
-            entry.target.style.transform = "translateY(0)";
-        }
+        if (!entry.isIntersecting) return;
+        entry.target.style.opacity = "1";
+        entry.target.style.transform = "translateY(0)";
     });
 }, observerOptions);
 
-// Active link highlight
+const progressObserver = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+
+        entry.target.style.width = entry.target.dataset.width || "0%";
+        progressObserver.unobserve(entry.target);
+    });
+}, observerOptions);
+
+function observeAnimatedElements(
+    elements = document.querySelectorAll(".card, .section-title, .section-subtitle, .projects-summary, .projects-actions")
+) {
+    elements.forEach(element => {
+        if (!element || observedElements.has(element)) return;
+
+        element.style.opacity = "0";
+        element.style.transform = "translateY(20px)";
+        element.style.transition = "opacity 0.6s ease-out, transform 0.6s ease-out";
+        observer.observe(element);
+        observedElements.add(element);
+    });
+}
+
+function observeProgressBars() {
+    document.querySelectorAll(".progress-fill").forEach(bar => {
+        if (observedProgressBars.has(bar)) return;
+
+        bar.style.width = "0%";
+        progressObserver.observe(bar);
+        observedProgressBars.add(bar);
+    });
+}
+
 window.addEventListener("scroll", () => {
     const sections = document.querySelectorAll("section[id]");
     const navLinks = document.querySelectorAll(".nav-link");
-    let current = "";
+    let currentSection = "";
+
     sections.forEach(section => {
-        if (window.pageYOffset >= section.offsetTop - 200) current = section.id;
+        if (window.pageYOffset >= section.offsetTop - 200) {
+            currentSection = section.id;
+        }
     });
+
     navLinks.forEach(link => {
-        link.classList.toggle("active", link.getAttribute("href") === "#" + current);
+        link.classList.toggle("active", link.getAttribute("href") === `#${currentSection}`);
     });
 });
 
-// Init
 document.addEventListener("DOMContentLoaded", async () => {
     await loadLanguage(currentLang);
 
-    // Observe elements
-    const animated = document.querySelectorAll(".card, .section-title, .section-subtitle");
-    animated.forEach(el => {
-        el.style.opacity = "0";
-        el.style.transform = "translateY(20px)";
-        el.style.transition = "opacity 0.6s ease-out, transform 0.6s ease-out";
-        observer.observe(el);
-    });
+    document.querySelectorAll(".lang-btn").forEach(button => {
+        button.addEventListener("click", async () => {
+            const nextLang = button.dataset.lang;
+            if (nextLang === currentLang) return;
 
-    // Progress bars animate on view
-    const bars = document.querySelectorAll(".progress-fill");
-    const pObs = new IntersectionObserver(entries => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                const width = entry.target.style.width;
-                entry.target.style.width = "0%";
-                setTimeout(() => (entry.target.style.width = width), 100);
-                pObs.unobserve(entry.target);
-            }
-        });
-    }, observerOptions);
-    bars.forEach(b => pObs.observe(b));
-
-    // Language switcher
-    document.querySelectorAll(".lang-btn").forEach(btn => {
-        btn.addEventListener("click", async () => {
-            const lang = btn.dataset.lang;
-            if (lang !== currentLang) {
-                currentLang = lang;
-                await loadLanguage(lang);
-            }
+            currentLang = nextLang;
+            await loadLanguage(nextLang);
         });
     });
 });
 
-// Small style for active nav & lang button
-const style = document.createElement("style");
-style.textContent = `
-  .nav-link.active { color: hsl(var(--primary)); }
-  .language-switcher { display: flex; gap: .5rem; }
-  .lang-btn { border: 1px solid hsl(var(--primary)); border-radius: .5rem; padding: .25rem .6rem; background: transparent; color: inherit; cursor: pointer; }
-  .lang-btn.active, .lang-btn:hover { background: hsl(var(--primary)); color: hsl(var(--primary-foreground)); }
-`;
-document.head.appendChild(style);
+async function loadLanguage(lang) {
+    try {
+        const module = await import(`./lang/data-${lang}.js`);
+        portfolioData = module.default;
+        localStorage.setItem("portfolioLang", lang);
+        document.documentElement.setAttribute("lang", lang);
+
+        document.querySelectorAll(".lang-btn").forEach(button => {
+            button.classList.toggle("active", button.dataset.lang === lang);
+        });
+
+        populatePortfolio();
+        void syncGithubProjects();
+    } catch (error) {
+        console.error("Failed to load language file:", error);
+    }
+}

@@ -23,6 +23,7 @@ export default {
         nav: {
             home: "Start",
             about: "Über mich",
+            projects: "Projekte",
             experience: "Erfahrung",
             education: "Ausbildung",
             skills: "Fähigkeiten",
@@ -34,6 +35,8 @@ export default {
         },
         sections: {
             aboutTitle: "Über mich",
+            projectsTitle: "GitHub-Projekte",
+            projectsSubtitle: "Öffentliche Repositories direkt von GitHub synchronisiert",
             experienceTitle: "Berufserfahrung",
             experienceSubtitle: "Mein beruflicher Werdegang und wichtigste Erfolge",
             educationTitle: "Ausbildung & Zertifikate",
@@ -58,6 +61,19 @@ export default {
             copyright: "© {year} {name}. Alle Rechte vorbehalten.",
             nationality: "Nationalität",
             dob: "Geburtsdatum"
+        },
+        projects: {
+            profile: "GitHub-Profil öffnen",
+            summary: "{count} öffentliche Repositories von GitHub, sortiert nach letzter Aktivität.",
+            loading: "GitHub-Repositories werden geladen...",
+            empty: "Derzeit sind keine öffentlichen Repositories verfügbar.",
+            error: "GitHub-Repositories konnten gerade nicht geladen werden.",
+            fallbackDescription: "Öffentliches Repository, direkt aus meinem GitHub-Profil synchronisiert.",
+            updated: "Aktualisiert",
+            stars: "Stars",
+            forks: "Forks",
+            code: "Code ansehen",
+            live: "Live-Demo"
         }
     },
 

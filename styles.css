@@ -96,6 +96,10 @@ body {
     color: hsl(var(--primary));
 }
 
+.nav-link.active {
+    color: hsl(var(--primary));
+}
+
 /* Hero Section */
 .hero-section {
     min-height: 100vh;
@@ -303,6 +307,129 @@ body {
 
 .card-description {
     color: hsl(var(--muted-foreground));
+}
+
+/* Projects Section */
+.projects-actions {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+}
+
+.projects-summary,
+.projects-status {
+    text-align: center;
+    color: hsl(var(--muted-foreground));
+}
+
+.projects-summary {
+    max-width: 760px;
+    margin: 0 auto 2rem;
+}
+
+.projects-status {
+    margin-bottom: 2rem;
+}
+
+.projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+}
+
+.project-card {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    min-height: 100%;
+}
+
+.project-card:hover {
+    border-color: hsla(var(--accent), 0.45);
+    transform: translateY(-4px);
+}
+
+.project-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.project-title {
+    font-size: 1.125rem;
+    font-weight: 600;
+}
+
+.project-title-link {
+    color: hsl(var(--foreground));
+    text-decoration: none;
+    transition: var(--transition);
+}
+
+.project-title-link:hover {
+    color: hsl(var(--primary));
+}
+
+.project-language {
+    background: hsla(var(--accent), 0.14);
+    color: hsl(var(--accent));
+    border: 1px solid hsla(var(--accent), 0.2);
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 0.35rem 0.7rem;
+    white-space: nowrap;
+}
+
+.project-description {
+    color: hsla(var(--foreground), 0.78);
+    min-height: 3.4rem;
+}
+
+.project-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+}
+
+.project-meta-item {
+    color: hsl(var(--muted-foreground));
+    font-size: 0.875rem;
+}
+
+.project-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: auto;
+}
+
+.project-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid hsl(var(--primary));
+    border-radius: 9999px;
+    color: hsl(var(--primary));
+    font-size: 0.875rem;
+    font-weight: 500;
+    padding: 0.55rem 0.95rem;
+    text-decoration: none;
+    transition: var(--transition);
+}
+
+.project-link:hover {
+    background: hsla(var(--primary), 0.08);
+}
+
+.project-link-primary {
+    background: hsl(var(--primary));
+    color: hsl(var(--primary-foreground));
+}
+
+.project-link-primary:hover {
+    background: hsla(var(--primary), 0.9);
 }
 
 /* Experience Section */
@@ -631,6 +758,7 @@ body {
     }
 
     .about-grid,
+    .projects-grid,
     .education-grid,
     .skills-grid,
     .languages-grid {
@@ -642,6 +770,10 @@ body {
     }
 
     .experience-card {
+        flex-direction: column;
+    }
+
+    .project-header {
         flex-direction: column;
     }
 }

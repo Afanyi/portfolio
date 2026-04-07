@@ -23,6 +23,7 @@ export default {
         nav: {
             home: "Accueil",
             about: "À propos",
+            projects: "Projets",
             experience: "Expérience",
             education: "Formation",
             skills: "Compétences",
@@ -34,6 +35,8 @@ export default {
         },
         sections: {
             aboutTitle: "À propos de moi",
+            projectsTitle: "Projets GitHub",
+            projectsSubtitle: "Dépôts publics synchronisés directement depuis GitHub",
             experienceTitle: "Expérience professionnelle",
             experienceSubtitle: "Mon parcours et mes réalisations clés",
             educationTitle: "Formation & Certifications",
@@ -58,6 +61,19 @@ export default {
             copyright: "© {year} {name}. Tous droits réservés.",
             nationality: "Nationalité",
             dob: "Date de naissance"
+        },
+        projects: {
+            profile: "Ouvrir le profil GitHub",
+            summary: "{count} dépôts publics récupérés depuis GitHub et triés par activité récente.",
+            loading: "Chargement des dépôts GitHub...",
+            empty: "Aucun dépôt public n’est disponible pour le moment.",
+            error: "Les dépôts GitHub n’ont pas pu être chargés pour le moment.",
+            fallbackDescription: "Dépôt public synchronisé depuis mon profil GitHub.",
+            updated: "Mis à jour",
+            stars: "Stars",
+            forks: "Forks",
+            code: "Voir le code",
+            live: "Démo en ligne"
         }
     },
 
