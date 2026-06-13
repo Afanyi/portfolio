@@ -78,26 +78,41 @@ export default {
     },
 
     aboutSubtitle:
-        "Engagierter Informatikstudent mit praktischer Erfahrung in Softwareentwicklung, Backendsystemen und Spieleentwicklung.",
+        "Engagierter Informatikstudent mit praktischer Erfahrung in Webentwicklung, Backendsystemen, Datenbanken und Softwareentwicklungsprojekten.",
     about: [
+        {
+            title: "Aktuelles Webentwicklungspraktikum",
+            description:
+                "Derzeit arbeite ich vor Ort bei ReiseFreudig in Mannheim und unterstütze die Modernisierung mehrsprachiger Websites sowie interner digitaler Arbeitsabläufe."
+        },
         {
             title: "Backend-Entwicklung",
             description:
-                "Erfahrung im Aufbau skalierbarer Backend-Services mit Python, FastAPI, PostgreSQL und modernen DevOps-Tools."
+                "Erfahrung im Aufbau von Backend-Services und APIs mit Python, FastAPI, PostgreSQL, Docker und modernen Entwicklungsworkflows."
         },
         {
-            title: "Full-Stack-Fähigkeiten",
+            title: "Web- & Automatisierungsfähigkeiten",
             description:
-                "Versiert in C++, Java, Python, JavaScript mit React sowie in Datenbanksystemen."
-        },
-        {
-            title: "Problemlöser",
-            description:
-                "Ausgeprägte analytische Fähigkeiten in Debugging, Optimierung und effizienter Implementierung."
+                "Kenntnisse in HTML, CSS, JavaScript und Python-Automatisierung für die Wartung von Websites, Verbesserung von Seitenstrukturen und Optimierung wiederkehrender Aufgaben."
         }
     ],
 
     experience: [
+        {
+            title: "Webentwicklungspraktikum",
+            company: "ReiseFreudig",
+            location: "Mannheim, Deutschland · Vor Ort",
+            period: "April 2026 - heute",
+            description: [
+                "Modernisierung mehrsprachiger Websites mit Mobirise, HTML, CSS und JavaScript",
+                "Verbesserung von Seitenstrukturen, Navigation, Formularen und responsiven Layouts",
+                "Pflege und Anpassung mehrsprachiger Website-Inhalte in verschiedenen Sprachversionen",
+                "Automatisierung wiederkehrender Website-Wartungsaufgaben mit Python-Skripten",
+                "Unterstützung der Entwicklung eines internen Mitarbeiter-Dashboards mit Python, FastAPI, PostgreSQL und Docker",
+                "Bearbeitung von Anfrage-Workflows für Kundenanfragen und interne Prozesse"
+            ],
+            tags: ["Mobirise", "HTML", "CSS", "JavaScript", "Python", "FastAPI", "PostgreSQL", "Docker", "Webentwicklung"]
+        },
         {
             title: "Werkstudent (Ferienjob) – Data Science",
             company: "Sanofi – TMU PMX (DMPK)",
@@ -183,10 +198,26 @@ export default {
     ],
 
     skills: [
-        { category: "Programmiersprachen", items: ["Python (Fortgeschritten)", "C++", "Java", "JavaScript", "TypeScript"] },
-        { category: "Frameworks & Bibliotheken", items: ["FastAPI", "React", "Qt", "Pytest", "Tavern"] },
-        { category: "Datenbanken & Tools", items: ["PostgreSQL", "Git/GitHub/GitLab", "Docker", "Kubernetes"] },
-        { category: "DevOps & Monitoring", items: ["CI/CD", "SonarQube", "Graylog", "Microsoft/MS Office"] }
+        {
+            category: "Programmiersprachen",
+            items: ["Python", "C++", "Java", "JavaScript", "TypeScript", "PHP", "SQL", "R"]
+        },
+        {
+            category: "Frameworks & Bibliotheken",
+            items: ["FastAPI", "React", "Qt", "Pytest", "Tavern"]
+        },
+        {
+            category: "Webentwicklung",
+            items: ["HTML", "CSS", "JavaScript", "Mobirise", "Responsive Design", "REST-APIs"]
+        },
+        {
+            category: "Datenbanken & Tools",
+            items: ["PostgreSQL", "MariaDB", "Git", "GitHub", "GitLab", "Docker"]
+        },
+        {
+            category: "DevOps & Monitoring",
+            items: ["CI/CD", "Kubernetes", "SonarQube", "Graylog", "VS Code", "PyCharm"]
+        }
     ],
 
     languages: [
@@ -198,6 +229,6 @@ export default {
     contact: {
         heading: "Lass uns vernetzen",
         description:
-            "Ich studiere derzeit Informatik (Bachelor) und suche aktiv nach Praktika und Jobmöglichkeiten. Ich bin begeistert von Backend-Entwicklung, DevOps und dem Aufbau skalierbarer Systeme."
+            "Ich absolviere derzeit meinen Bachelor in Informatik und sammle praktische Erfahrung als Webentwicklungspraktikant bei ReiseFreudig. Ich interessiere mich für Backend-Entwicklung, Webanwendungen, Automatisierung und skalierbare Softwarelösungen."
     }
 };
