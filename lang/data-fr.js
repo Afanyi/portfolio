@@ -78,26 +78,41 @@ export default {
     },
 
     aboutSubtitle:
-        "Étudiant en informatique motivé, avec une expérience pratique en développement logiciel, systèmes backend et développement de jeux.",
+        "Un étudiant en informatique dévoué avec une expérience pratique en développement web, systèmes backend, bases de données et projets de génie logiciel.",
     about: [
+        {
+            title: "Stage actuel en développement web",
+            description:
+                "Actuellement sur site chez ReiseFreudig à Mannheim, je participe à la modernisation de sites web multilingues et de processus numériques internes."
+        },
         {
             title: "Développement backend",
             description:
-                "Expérimenté dans la création de services backend évolutifs avec Python, FastAPI, PostgreSQL et des outils DevOps modernes."
+                "Expérimenté dans la création de services backend et d'API avec Python, FastAPI, PostgreSQL, Docker et des workflows de développement modernes."
         },
         {
-            title: "Compétences full-stack",
+            title: "Compétences web & automatisation",
             description:
-                "Compétent en C++, Java, Python, JavaScript avec React, ainsi qu’en systèmes de gestion de bases de données."
-        },
-        {
-            title: "Résolution de problèmes",
-            description:
-                "Solides compétences analytiques avec expérience en débogage, optimisation et mise en œuvre de solutions efficaces."
+                "Compétent en HTML, CSS, JavaScript et en automatisation Python pour la maintenance de sites, l'amélioration des structures de pages et l'optimisation de tâches répétitives."
         }
     ],
 
     experience: [
+        {
+            title: "Stage en développement web",
+            company: "ReiseFreudig",
+            location: "Mannheim, Allemagne · Sur place",
+            period: "Avril 2026 - présent",
+            description: [
+                "Modernisation de sites web multilingues avec Mobirise, HTML, CSS et JavaScript",
+                "Amélioration des structures de pages, de la navigation, des formulaires et des mises en page responsives",
+                "Maintenance et adaptation de contenu web multilingue dans différentes versions linguistiques",
+                "Automatisation de tâches répétitives de maintenance de sites avec des scripts Python",
+                "Soutien au développement d'un tableau de bord interne pour les employés avec Python, FastAPI, PostgreSQL et Docker",
+                "Gestion des flux de travail pour les demandes des clients et les processus internes"
+            ],
+            tags: ["Mobirise", "HTML", "CSS", "JavaScript", "Python", "FastAPI", "PostgreSQL", "Docker", "Développement web"]
+        },
         {
             title: "Werkstudent (emploi de vacances) – Data Science",
             company: "Sanofi – TMU PMX (DMPK)",
@@ -183,10 +198,26 @@ export default {
     ],
 
     skills: [
-        { category: "Langages de programmation", items: ["Python (Avancé)", "C++", "Java", "JavaScript", "TypeScript"] },
-        { category: "Frameworks & bibliothèques", items: ["FastAPI", "React", "Qt", "Pytest", "Tavern"] },
-        { category: "Bases de données & outils", items: ["PostgreSQL", "Git/GitHub/GitLab", "Docker", "Kubernetes"] },
-        { category: "DevOps & monitoring", items: ["CI/CD", "SonarQube", "Graylog", "Microsoft/MS Office"] }
+        {
+            category: "Langages de programmation",
+            items: ["Python", "C++", "Java", "JavaScript", "TypeScript", "PHP", "SQL", "R"]
+        },
+        {
+            category: "Frameworks & bibliothèques",
+            items: ["FastAPI", "React", "Qt", "Pytest", "Tavern"]
+        },
+        {
+            category: "Développement web",
+            items: ["HTML", "CSS", "JavaScript", "Mobirise", "Responsive Design", "API REST"]
+        },
+        {
+            category: "Bases de données & outils",
+            items: ["PostgreSQL", "MariaDB", "Git", "GitHub", "GitLab", "Docker"]
+        },
+        {
+            category: "DevOps & monitoring",
+            items: ["CI/CD", "Kubernetes", "SonarQube", "Graylog", "VS Code", "PyCharm"]
+        }
     ],
 
     languages: [
@@ -198,6 +229,6 @@ export default {
     contact: {
         heading: "Entrons en contact",
         description:
-            "Je poursuis actuellement une Licence en informatique et je recherche activement des stages et des opportunités professionnelles. Passionné par le backend, le DevOps et la création de systèmes évolutifs."
+            "Je poursuis actuellement ma Licence en informatique et je gagne de l'expérience pratique en tant que stagiaire en développement web chez ReiseFreudig. Je m'intéresse au développement backend, aux applications web, à l'automatisation et aux solutions logicielles évolutives."
     }
 };

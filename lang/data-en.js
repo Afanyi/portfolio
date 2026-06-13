@@ -3,9 +3,9 @@ export default {
         name: "Blasius Fornge",
         surname: "Afanyi",
         fullName: "Blasius Fornge Afanyi",
-        title: "Software Developer & Computer Science Student",
+        title: "Web Development Intern & Computer Science Student",
         description:
-            "Passionate about building robust backend systems and creating innovative solutions with modern technologies.",
+            "Computer Science student focused on backend development, web applications, multilingual websites and internal dashboard solutions.",
         email: "afanyiblasius4@gmail.com",
         phone: "+49 176 75281993",
         location: {
@@ -19,7 +19,6 @@ export default {
         linkedinUrl: "https://www.linkedin.com/in/afanyi-blasius-fornge-7595a5226"
     },
 
-    // UI Labels & captions
     ui: {
         nav: {
             home: "Home",
@@ -79,37 +78,53 @@ export default {
     },
 
     aboutSubtitle:
-        "A dedicated Computer Science student with hands-on experience in software development, backend systems, and game development.",
+        "A dedicated Computer Science student with hands-on experience in web development, backend systems, databases and software engineering projects.",
+
     about: [
+        {
+            title: "Current Web Development Internship",
+            description:
+                "Currently working on-site at ReiseFreudig in Mannheim, supporting the modernization of multilingual websites and internal digital workflows."
+        },
         {
             title: "Backend Development",
             description:
-                "Experienced in building scalable backend services with Python, FastAPI, PostgreSQL, and modern DevOps tools."
+                "Experienced in building backend services and APIs with Python, FastAPI, PostgreSQL, Docker and modern development workflows."
         },
         {
-            title: "Full-Stack Skills",
+            title: "Web & Automation Skills",
             description:
-                "Proficient in C++, Java, Python, JavaScript with React, and database management systems."
-        },
-        {
-            title: "Problem Solver",
-            description:
-                "Strong analytical skills with experience in debugging, optimization, and implementing efficient solutions."
+                "Skilled in HTML, CSS, JavaScript and Python automation for maintaining websites, improving page structures and optimizing repetitive tasks."
         }
     ],
 
     experience: [
         {
-            title: "Werkstudent (Holiday Job) – Data Science",
+            title: "Web Development Intern",
+            company: "ReiseFreudig",
+            location: "Mannheim, Germany · On-site",
+            period: "April 2026 - Present",
+            description: [
+                "Modernizing multilingual websites using Mobirise, HTML, CSS and JavaScript",
+                "Improving page structures, navigation, forms and responsive layouts",
+                "Maintaining and adapting multilingual website content across different language versions",
+                "Automating repetitive website maintenance tasks with Python scripts",
+                "Supporting the development of an internal employee dashboard with Python, FastAPI, PostgreSQL and Docker",
+                "Working on request management workflows for customer inquiries and internal processes"
+            ],
+            tags: ["Mobirise", "HTML", "CSS", "JavaScript", "Python", "FastAPI", "PostgreSQL", "Docker", "Web Development"]
+        },
+        {
+            title: "Werkstudent / Holiday Job – Data Science",
             company: "Sanofi – TMU PMX (DMPK)",
             location: "Frankfurt, Germany",
             period: "August 2025 - October 2025",
             description: [
-                "Supported PBPK modeling by updating drug models (Alfentanil, Itraconazole, Omeprazole, Verapamil) with new expression profiles",
-                "Performed Parameter Identification and model fitting to improve prediction accuracy",
-                "Plotted and analyzed PK parameters (Cmax, AUC) comparing old, new, PI, and observed data",
-                "Automated data processing and visualization workflows in R (RStudio, VS Code)",
-                "Applied PK-Sim and MoBi for model simulations and used Git for version control"
+                "Supported PBPK modeling by updating drug models with new expression profiles",
+                "Performed parameter identification and model fitting to improve prediction accuracy",
+                "Plotted and analyzed PK parameters such as Cmax and AUC",
+                "Automated data processing and visualization workflows in R",
+                "Used PK-Sim, MoBi, RStudio, VS Code and Git for model simulation and workflow management"
             ],
             tags: ["R", "RStudio", "VS Code", "PK-Sim", "MoBi", "Git", "Data Science", "PBPK Modeling"]
         },
@@ -119,13 +134,13 @@ export default {
             location: "Darmstadt, Germany",
             period: "October 2024 - Present",
             description: [
-                "Database management with PostgreSQL",
-                "Docker, Kubernetes, CI/CD with Git/GitLab",
-                "Static analysis with SonarQube and integration testing",
-                "Centralized logging with Graylog",
-                "Order Management System with Python and FastAPI"
+                "Built an order management backend using Python and FastAPI",
+                "Designed and tested REST API endpoints for pizza orders and related resources",
+                "Managed database structures with PostgreSQL",
+                "Worked with Docker, Kubernetes and GitLab CI/CD",
+                "Used SonarQube for static analysis and Graylog for centralized logging"
             ],
-            tags: ["Python", "FastAPI", "PostgreSQL", "Docker", "Kubernetes", "CI/CD"]
+            tags: ["Python", "FastAPI", "PostgreSQL", "Docker", "Kubernetes", "CI/CD", "GitLab"]
         },
         {
             title: "Game Development - DungeonCrawler",
@@ -133,10 +148,10 @@ export default {
             location: "Darmstadt, Germany",
             period: "April 2024 - July 2024",
             description: [
-                "Developed a 2D dungeon-crawler with C++ and Qt",
-                "Implemented player movement, combat, and item collection",
-                "Applied OOP for modular architecture",
-                "Used Qt Widgets for interactive UI"
+                "Developed a 2D dungeon-crawler game with C++ and Qt",
+                "Implemented player movement, combat, item collection and basic game logic",
+                "Applied object-oriented programming for a modular architecture",
+                "Used Qt Widgets to build an interactive graphical user interface"
             ],
             tags: ["C++", "Qt", "Game Development", "OOP", "GUI"]
         },
@@ -145,8 +160,12 @@ export default {
             company: "Private",
             location: "Douala, Cameroon",
             period: "May 2022 - August 2022",
-            description: ["Provided private mathematics tutoring to students"],
-            tags: ["Teaching", "Mathematics"]
+            description: [
+                "Provided private mathematics tutoring to students",
+                "Explained mathematical concepts in a simple and structured way",
+                "Helped students prepare exercises and improve problem-solving skills"
+            ],
+            tags: ["Teaching", "Mathematics", "Communication"]
         }
     ],
 
@@ -184,21 +203,52 @@ export default {
     ],
 
     skills: [
-        { category: "Programming Languages", items: ["Python (Advanced)", "C++", "Java", "JavaScript", "TypeScript"] },
-        { category: "Frameworks & Libraries", items: ["FastAPI", "React", "Qt", "Pytest", "Tavern"] },
-        { category: "Databases & Tools", items: ["PostgreSQL", "Git/GitHub/GitLab", "Docker", "Kubernetes"] },
-        { category: "DevOps & Monitoring", items: ["CI/CD", "SonarQube", "Graylog", "Microsoft/MS Office"] }
+        {
+            category: "Programming Languages",
+            items: ["Python", "C++", "Java", "JavaScript", "TypeScript", "PHP", "SQL", "R"]
+        },
+        {
+            category: "Frameworks & Libraries",
+            items: ["FastAPI", "React", "Qt", "Pytest", "Tavern"]
+        },
+        {
+            category: "Web Development",
+            items: ["HTML", "CSS", "JavaScript", "Mobirise", "Responsive Design", "REST APIs"]
+        },
+        {
+            category: "Databases & Tools",
+            items: ["PostgreSQL", "MariaDB", "Git", "GitHub", "GitLab", "Docker"]
+        },
+        {
+            category: "DevOps & Monitoring",
+            items: ["CI/CD", "Kubernetes", "SonarQube", "Graylog", "VS Code", "PyCharm"]
+        }
     ],
 
     languages: [
-        { name: "English", level: "Native", proficiency: 100, skills: ["Speaking", "Reading", "Writing", "Listening"] },
-        { name: "German", level: "C1 - Proficient", proficiency: 90, skills: ["Listening: C1", "Reading: C1", "Writing: B2", "Speaking: C1"] },
-        { name: "French", level: "B2 - Independent", proficiency: 70, skills: ["Listening: B2", "Reading: B2", "Writing: B2", "Speaking: B2"] }
+        {
+            name: "English",
+            level: "Native",
+            proficiency: 100,
+            skills: ["Speaking", "Reading", "Writing", "Listening"]
+        },
+        {
+            name: "German",
+            level: "C1 - Proficient",
+            proficiency: 90,
+            skills: ["Listening: C1", "Reading: C1", "Writing: B2", "Speaking: C1"]
+        },
+        {
+            name: "French",
+            level: "B2 - Independent",
+            proficiency: 70,
+            skills: ["Listening: B2", "Reading: B2", "Writing: B2", "Speaking: B2"]
+        }
     ],
 
     contact: {
         heading: "Let's Connect",
         description:
-            "I'm currently pursuing my Bachelor's in Computer Science and actively seeking internship and job opportunities. I'm passionate about backend development, DevOps, and building scalable systems."
+            "I am currently pursuing my Bachelor's in Computer Science and gaining practical experience as a Web Development Intern at ReiseFreudig. I am interested in backend development, web applications, automation and scalable software solutions."
     }
 };
