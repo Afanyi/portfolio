@@ -3,9 +3,9 @@ export default {
         name: "Blasius Fornge",
         surname: "Afanyi",
         fullName: "Blasius Fornge Afanyi",
-        title: "Développeur logiciel & étudiant en informatique",
+        title: "Étudiant en informatique · Développeur Python & Full-Stack",
         description:
-            "Passionné par la création de systèmes backend robustes et de solutions innovantes utilisant des technologies modernes.",
+            "Je développe principalement des applications backend et web avec Python, FastAPI, PostgreSQL et Docker.",
         email: "afanyiblasius4@gmail.com",
         phone: "+49 176 75281993",
         location: {
@@ -34,19 +34,19 @@ export default {
             work: "Voir les projets"
         },
         sections: {
-            aboutTitle: "À propos de moi",
-            projectsTitle: "Projets GitHub",
-            projectsSubtitle: "Dépôts publics synchronisés directement depuis GitHub",
-            experienceTitle: "Expérience professionnelle",
-            experienceSubtitle: "Mon parcours et mes réalisations clés",
-            educationTitle: "Formation & Certifications",
-            educationSubtitle: "Mon parcours académique et mes qualifications",
-            skillsTitle: "Compétences techniques",
-            skillsSubtitle: "Technologies et outils que j’utilise",
-            languagesTitle: "Compétences linguistiques",
-            languagesSubtitle: "Compétences de communication multilingues",
-            contactTitle: "Contactez-moi",
-            contactSubtitle: "N’hésitez pas à me contacter pour une opportunité ou une collaboration"
+            aboutTitle: "À propos",
+            projectsTitle: "Projets",
+            projectsSubtitle: "",
+            experienceTitle: "Expérience",
+            experienceSubtitle: "",
+            educationTitle: "Formation",
+            educationSubtitle: "",
+            skillsTitle: "Compétences",
+            skillsSubtitle: "",
+            languagesTitle: "Langues",
+            languagesSubtitle: "",
+            contactTitle: "Contact",
+            contactSubtitle: ""
         },
         contactLabels: {
             email: "E-mail",
@@ -64,7 +64,7 @@ export default {
         },
         projects: {
             profile: "Ouvrir le profil GitHub",
-            summary: "{count} dépôts publics récupérés depuis GitHub et triés par activité récente.",
+            summary: "{shown} dépôts affichés sur {count}, triés par activité récente.",
             loading: "Chargement des dépôts GitHub...",
             empty: "Aucun dépôt public n’est disponible pour le moment.",
             error: "Les dépôts GitHub n’ont pas pu être chargés pour le moment.",
@@ -78,24 +78,8 @@ export default {
     },
 
     aboutSubtitle:
-        "Un étudiant en informatique dévoué avec une expérience pratique en développement web, systèmes backend, bases de données et projets de génie logiciel.",
-    about: [
-        {
-            title: "Stage actuel en développement web",
-            description:
-                "Actuellement sur site chez ReiseFreudig à Mannheim, je participe à la modernisation de sites web multilingues et de processus numériques internes."
-        },
-        {
-            title: "Développement backend",
-            description:
-                "Expérimenté dans la création de services backend et d'API avec Python, FastAPI, PostgreSQL, Docker et des workflows de développement modernes."
-        },
-        {
-            title: "Compétences web & automatisation",
-            description:
-                "Compétent en HTML, CSS, JavaScript et en automatisation Python pour la maintenance de sites, l'amélioration des structures de pages et l'optimisation de tâches répétitives."
-        }
-    ],
+        "Je suis étudiant en informatique à la Hochschule Darmstadt et je m'intéresse particulièrement au développement backend. Je travaille principalement avec Python, FastAPI, PostgreSQL, Docker et Kubernetes. Mon expérience vient surtout de projets universitaires, de stages et de projets personnels.",
+    about: [],
 
     experience: [
         {
@@ -198,25 +182,30 @@ export default {
     ],
 
     skills: [
+        { category: "Principales", items: ["Python", "FastAPI", "PostgreSQL", "Docker"] },
         {
-            category: "Langages de programmation",
-            items: ["Python", "C++", "Java", "JavaScript", "TypeScript", "PHP", "SQL", "R"]
+            category: "Langages & Web",
+            items: ["C / C++", "Java", "JavaScript", "TypeScript", "PHP", "Dart", "Rust", "SQL", "HTML", "CSS", "Bash", "R"]
         },
         {
-            category: "Frameworks & bibliothèques",
-            items: ["FastAPI", "React", "Qt", "Pytest", "Tavern"]
+            category: "Frameworks & API",
+            items: ["Next.js", "React", "Flutter", "Prisma", "API REST", "OpenAPI / Swagger", "Fetch API", "JSON", "Qt"]
         },
         {
-            category: "Développement web",
-            items: ["HTML", "CSS", "JavaScript", "Mobirise", "Responsive Design", "API REST"]
+            category: "Données & Messaging",
+            items: ["pgvector", "MariaDB", "Redis", "Kafka", "MinIO"]
         },
         {
-            category: "Bases de données & outils",
-            items: ["PostgreSQL", "MariaDB", "Git", "GitHub", "GitLab", "Docker"]
+            category: "DevOps",
+            items: ["Kubernetes", "GitLab CI/CD", "Docker Compose", "SonarQube", "Graylog"]
         },
         {
-            category: "DevOps & monitoring",
-            items: ["CI/CD", "Kubernetes", "SonarQube", "Graylog", "VS Code", "PyCharm"]
+            category: "Génie logiciel",
+            items: ["Développement backend", "Conception d’API", "Conception de bases de données", "Tests d’intégration", "Journalisation", "Clean Code", "POO", "UI responsive", "Communication client-serveur"]
+        },
+        {
+            category: "Outils & Systèmes",
+            items: ["Git", "GitHub", "GitLab", "pgAdmin 4", "VS Code", "PyCharm", "CLion", "Qt Creator", "Android Studio", "Apache", "Debian", "Ubuntu", "Windows 10 / 11"]
         }
     ],
 
@@ -227,8 +216,8 @@ export default {
     ],
 
     contact: {
-        heading: "Entrons en contact",
+        heading: "Contact",
         description:
-            "Je poursuis actuellement ma Licence en informatique et je gagne de l'expérience pratique en tant que stagiaire en développement web chez ReiseFreudig. Je m'intéresse au développement backend, aux applications web, à l'automatisation et aux solutions logicielles évolutives."
+            "Le meilleur moyen de me joindre est par e-mail. Vous pouvez aussi consulter mes projets sur GitHub et me retrouver sur LinkedIn."
     }
 };

@@ -3,9 +3,9 @@ export default {
         name: "Blasius Fornge",
         surname: "Afanyi",
         fullName: "Blasius Fornge Afanyi",
-        title: "Web Development Intern & Computer Science Student",
+        title: "Computer Science Student · Python & Full-Stack Developer",
         description:
-            "Computer Science student focused on backend development, web applications, multilingual websites and internal dashboard solutions.",
+            "I build backend and web applications mainly with Python, FastAPI, PostgreSQL and Docker.",
         email: "afanyiblasius4@gmail.com",
         phone: "+49 176 75281993",
         location: {
@@ -34,19 +34,19 @@ export default {
             work: "View Work"
         },
         sections: {
-            aboutTitle: "About Me",
-            projectsTitle: "GitHub Projects",
-            projectsSubtitle: "Public repositories synced directly from GitHub",
-            experienceTitle: "Work Experience",
-            experienceSubtitle: "My professional journey and key achievements",
-            educationTitle: "Education & Certifications",
-            educationSubtitle: "My academic background and qualifications",
-            skillsTitle: "Technical Skills",
-            skillsSubtitle: "Technologies and tools I work with",
-            languagesTitle: "Language Proficiency",
-            languagesSubtitle: "Multilingual communication skills",
-            contactTitle: "Get In Touch",
-            contactSubtitle: "Feel free to reach out for opportunities or collaborations"
+            aboutTitle: "About",
+            projectsTitle: "Projects",
+            projectsSubtitle: "",
+            experienceTitle: "Experience",
+            experienceSubtitle: "",
+            educationTitle: "Education",
+            educationSubtitle: "",
+            skillsTitle: "Skills",
+            skillsSubtitle: "",
+            languagesTitle: "Languages",
+            languagesSubtitle: "",
+            contactTitle: "Contact",
+            contactSubtitle: ""
         },
         contactLabels: {
             email: "Email",
@@ -64,7 +64,7 @@ export default {
         },
         projects: {
             profile: "Open GitHub Profile",
-            summary: "{count} public repositories pulled from GitHub and sorted by recent activity.",
+            summary: "Showing {shown} of {count} public repositories, sorted by recent activity.",
             loading: "Loading GitHub repositories...",
             empty: "No public repositories are available yet.",
             error: "GitHub repositories could not be loaded right now.",
@@ -78,25 +78,9 @@ export default {
     },
 
     aboutSubtitle:
-        "A dedicated Computer Science student with hands-on experience in web development, backend systems, databases and software engineering projects.",
+        "I'm a Computer Science student at Hochschule Darmstadt with a strong interest in backend development. I mainly work with Python, FastAPI, PostgreSQL, Docker and Kubernetes. Most of my experience comes from university projects, internships and personal projects.",
 
-    about: [
-        {
-            title: "Current Web Development Internship",
-            description:
-                "Currently working on-site at ReiseFreudig in Mannheim, supporting the modernization of multilingual websites and internal digital workflows."
-        },
-        {
-            title: "Backend Development",
-            description:
-                "Experienced in building backend services and APIs with Python, FastAPI, PostgreSQL, Docker and modern development workflows."
-        },
-        {
-            title: "Web & Automation Skills",
-            description:
-                "Skilled in HTML, CSS, JavaScript and Python automation for maintaining websites, improving page structures and optimizing repetitive tasks."
-        }
-    ],
+    about: [],
 
     experience: [
         {
@@ -203,25 +187,30 @@ export default {
     ],
 
     skills: [
+        { category: "Main", items: ["Python", "FastAPI", "PostgreSQL", "Docker"] },
         {
-            category: "Programming Languages",
-            items: ["Python", "C++", "Java", "JavaScript", "TypeScript", "PHP", "SQL", "R"]
+            category: "Languages & Web",
+            items: ["C / C++", "Java", "JavaScript", "TypeScript", "PHP", "Dart", "Rust", "SQL", "HTML", "CSS", "Bash", "R"]
         },
         {
-            category: "Frameworks & Libraries",
-            items: ["FastAPI", "React", "Qt", "Pytest", "Tavern"]
+            category: "Frameworks & APIs",
+            items: ["Next.js", "React", "Flutter", "Prisma", "REST APIs", "OpenAPI / Swagger", "Fetch API", "JSON", "Qt"]
         },
         {
-            category: "Web Development",
-            items: ["HTML", "CSS", "JavaScript", "Mobirise", "Responsive Design", "REST APIs"]
+            category: "Data & Messaging",
+            items: ["pgvector", "MariaDB", "Redis", "Kafka", "MinIO"]
         },
         {
-            category: "Databases & Tools",
-            items: ["PostgreSQL", "MariaDB", "Git", "GitHub", "GitLab", "Docker"]
+            category: "DevOps",
+            items: ["Kubernetes", "GitLab CI/CD", "Docker Compose", "SonarQube", "Graylog"]
         },
         {
-            category: "DevOps & Monitoring",
-            items: ["CI/CD", "Kubernetes", "SonarQube", "Graylog", "VS Code", "PyCharm"]
+            category: "Engineering",
+            items: ["Backend Development", "API Design", "Database Design", "Integration Testing", "Logging", "Clean Code", "OOP", "Responsive UI", "Client-Server Communication"]
+        },
+        {
+            category: "Tools & Systems",
+            items: ["Git", "GitHub", "GitLab", "pgAdmin 4", "VS Code", "PyCharm", "CLion", "Qt Creator", "Android Studio", "Apache", "Debian", "Ubuntu", "Windows 10 / 11"]
         }
     ],
 
@@ -247,8 +236,8 @@ export default {
     ],
 
     contact: {
-        heading: "Let's Connect",
+        heading: "Contact",
         description:
-            "I am currently pursuing my Bachelor's in Computer Science and gaining practical experience as a Web Development Intern at ReiseFreudig. I am interested in backend development, web applications, automation and scalable software solutions."
+            "The best way to reach me is by email. You can also find my work on GitHub and connect with me on LinkedIn."
     }
 };

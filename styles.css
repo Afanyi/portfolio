@@ -58,8 +58,8 @@ body {
 }
 
 #navbar.scrolled {
-    background: hsla(var(--card), 0.5);
-    backdrop-filter: blur(10px);
+    background: hsla(var(--card), 0.92);
+    backdrop-filter: blur(4px);
     border-bottom: 1px solid hsla(var(--border), 0.5);
     padding: 1rem 0;
 }
@@ -116,21 +116,6 @@ body {
     margin: 0 auto;
 }
 
-.fade-in-element {
-    animation: fadeIn 0.8s ease-out;
-}
-
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
 .hero-title {
     font-size: clamp(2.5rem, 5vw, 4.5rem);
     font-weight: bold;
@@ -138,7 +123,7 @@ body {
 }
 
 .glow-text {
-    text-shadow: 0 0 40px hsla(var(--primary), 0.3);
+    text-shadow: none;
 }
 
 .text-gradient {
@@ -230,12 +215,6 @@ body {
     left: 50%;
     transform: translateX(-50%);
     color: hsl(var(--primary));
-    animation: bounce 2s infinite;
-}
-
-@keyframes bounce {
-    0%, 100% { transform: translateX(-50%) translateY(0); }
-    50% { transform: translateX(-50%) translateY(-10px); }
 }
 
 /* Section Styles */
@@ -261,10 +240,13 @@ body {
     margin: 0 auto 3rem;
 }
 
+.section-subtitle:empty {
+    display: none;
+}
+
 /* Card Styles */
 .card {
-    background: hsla(var(--card), 0.5);
-    backdrop-filter: blur(10px);
+    background: hsla(var(--card), 0.78);
     border: 1px solid hsla(var(--border), 0.5);
     border-radius: var(--radius);
     padding: 1.5rem;
@@ -272,7 +254,6 @@ body {
 }
 
 .card-hover:hover {
-    transform: scale(1.05);
     border-color: hsla(var(--primary), 0.5);
 }
 
@@ -346,7 +327,6 @@ body {
 
 .project-card:hover {
     border-color: hsla(var(--accent), 0.45);
-    transform: translateY(-4px);
 }
 
 .project-header {
@@ -573,6 +553,15 @@ body {
 
 .skill-card:hover {
     border-color: hsla(var(--primary), 0.5);
+}
+
+.skill-card:first-child {
+    border-color: hsla(var(--primary), 0.45);
+}
+
+.skill-card:first-child .skill-tag {
+    background: hsla(var(--primary), 0.15);
+    color: hsl(var(--primary));
 }
 
 .skill-header {
