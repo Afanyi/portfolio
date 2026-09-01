@@ -7,9 +7,6 @@ const githubState = {
 };
 
 const supportedLangs = ["en", "de", "fr"];
-const observedElements = new WeakSet();
-const observedProgressBars = new WeakSet();
-
 let currentLang =
     localStorage.getItem("portfolioLang") ||
     (navigator.language || "en").slice(0, 2);
@@ -159,12 +156,14 @@ function renderGithubProjects() {
         return;
     }
 
-    summary.textContent = ui.summary.replace("{count}", githubState.repos.length);
-    githubState.repos.forEach(repo => {
+    const visibleRepos = githubState.repos.slice(0, 6);
+    summary.textContent = ui.summary
+        .replace("{shown}", visibleRepos.length)
+        .replace("{count}", githubState.repos.length);
+    visibleRepos.forEach(repo => {
         grid.appendChild(createProjectCard(repo, ui));
     });
 
-    observeAnimatedElements(grid.querySelectorAll(".project-card"));
 }
 
 async function syncGithubProjects() {
@@ -394,12 +393,6 @@ function populatePortfolio() {
               <p class="language-level">${language.level}</p>
             </div>
           </div>
-          <div class="progress-bar">
-            <div class="progress-fill" data-width="${language.proficiency}%"></div>
-          </div>
-          <ul class="language-skills">
-            ${language.skills.map(skill => `<li>${skill}</li>`).join("")}
-          </ul>
         </div>`;
             languagesGrid.insertAdjacentHTML("beforeend", card);
         });
@@ -407,26 +400,18 @@ function populatePortfolio() {
 
     const labels = document.querySelectorAll(".contact-item .contact-label");
     if (labels[0]) labels[0].textContent = data.ui.contactLabels.email;
-    if (labels[1]) labels[1].textContent = data.ui.contactLabels.phone;
-    if (labels[2]) labels[2].textContent = data.ui.contactLabels.location;
+    if (labels[1]) labels[1].textContent = data.ui.contactLabels.location;
 
     const emailLink = document.querySelectorAll(".contact-link")[0];
-    const phoneLink = document.querySelectorAll(".contact-link")[1];
-    const phoneHref = `tel:${data.personal.phone.replace(/\s+/g, "")}`;
 
     if (emailLink) {
         emailLink.textContent = data.personal.email;
         emailLink.href = `mailto:${data.personal.email}`;
     }
 
-    if (phoneLink) {
-        phoneLink.textContent = data.personal.phone;
-        phoneLink.href = phoneHref;
-    }
-
     setHTML(
         ".contact-text",
-        `${data.personal.location.street}<br>${data.personal.location.city}<br>${data.personal.location.country}`
+        `${data.personal.location.city}, ${data.personal.location.country}`
     );
 
     setText(".contact-cta .contact-heading", data.contact.heading);
@@ -448,18 +433,11 @@ function populatePortfolio() {
 
     const year = new Date().getFullYear();
     const footerMain = document.querySelector(".footer p");
-    const footerSub = document.querySelector(".footer-sub");
 
     if (footerMain) {
         footerMain.textContent = data.ui.footer.copyright
             .replace("{year}", year)
             .replace("{name}", data.personal.fullName);
-    }
-
-    if (footerSub) {
-        footerSub.textContent =
-            `${data.ui.footer.nationality}: ${data.personal.nationality} | ` +
-            `${data.ui.footer.dob}: ${data.personal.dateOfBirth}`;
     }
 
     const pageTitle = `${data.personal.fullName} - ${data.personal.title}`;
@@ -470,8 +448,6 @@ function populatePortfolio() {
     setMetaContent('meta[property="og:description"]', data.personal.description);
 
     renderGithubProjects();
-    observeAnimatedElements();
-    observeProgressBars();
 }
 
 window.addEventListener("scroll", () => {
@@ -488,49 +464,6 @@ document.querySelectorAll('a[href^="#"]').forEach(link => {
         window.scrollTo({ top: target.offsetTop - 80, behavior: "smooth" });
     });
 });
-
-const observerOptions = { threshold: 0.1, rootMargin: "0px 0px -100px 0px" };
-
-const observer = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-        if (!entry.isIntersecting) return;
-        entry.target.style.opacity = "1";
-        entry.target.style.transform = "translateY(0)";
-    });
-}, observerOptions);
-
-const progressObserver = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-        if (!entry.isIntersecting) return;
-
-        entry.target.style.width = entry.target.dataset.width || "0%";
-        progressObserver.unobserve(entry.target);
-    });
-}, observerOptions);
-
-function observeAnimatedElements(
-    elements = document.querySelectorAll(".card, .section-title, .section-subtitle, .projects-summary, .projects-actions")
-) {
-    elements.forEach(element => {
-        if (!element || observedElements.has(element)) return;
-
-        element.style.opacity = "0";
-        element.style.transform = "translateY(20px)";
-        element.style.transition = "opacity 0.6s ease-out, transform 0.6s ease-out";
-        observer.observe(element);
-        observedElements.add(element);
-    });
-}
-
-function observeProgressBars() {
-    document.querySelectorAll(".progress-fill").forEach(bar => {
-        if (observedProgressBars.has(bar)) return;
-
-        bar.style.width = "0%";
-        progressObserver.observe(bar);
-        observedProgressBars.add(bar);
-    });
-}
 
 window.addEventListener("scroll", () => {
     const sections = document.querySelectorAll("section[id]");
