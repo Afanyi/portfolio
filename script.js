@@ -23,11 +23,6 @@ const setHTML = (selector, html) => {
     if (element && html != null) element.innerHTML = html;
 };
 
-const setMetaContent = (selector, content) => {
-    const meta = document.querySelector(selector);
-    if (meta && content != null) meta.setAttribute("content", content);
-};
-
 function gradientize(title) {
     if (!title) return "";
 
@@ -144,6 +139,7 @@ function renderGithubProjects() {
 
     if (githubState.status === "error") {
         status.textContent = ui.error;
+        status.append(" ", createProjectLink(data.personal.githubUrl, ui.profile));
         return;
     }
 
@@ -156,7 +152,7 @@ function renderGithubProjects() {
         return;
     }
 
-    const visibleRepos = githubState.repos.slice(0, 6);
+    const visibleRepos = githubState.repos.slice(0, 3);
     summary.textContent = ui.summary
         .replace("{shown}", visibleRepos.length)
         .replace("{count}", githubState.repos.length);
@@ -194,7 +190,7 @@ async function syncGithubProjects() {
 
     try {
         const response = await fetch(
-            `https://api.github.com/users/${username}/repos?per_page=100&sort=pushed&direction=desc`,
+            `https://api.github.com/users/${username}/repos?per_page=100&sort=pushed`,
             { headers: { Accept: "application/vnd.github+json" } }
         );
 
@@ -204,7 +200,7 @@ async function syncGithubProjects() {
 
         const repos = await response.json();
         githubState.repos = repos
-            .filter(repo => !repo.fork)
+            .filter(repo => !repo.fork && repo.name.toLowerCase() !== "portfolio")
             .sort((a, b) => new Date(b.pushed_at) - new Date(a.pushed_at));
         githubState.status = "loaded";
     } catch (error) {
@@ -439,13 +435,6 @@ function populatePortfolio() {
             .replace("{year}", year)
             .replace("{name}", data.personal.fullName);
     }
-
-    const pageTitle = `${data.personal.fullName} - ${data.personal.title}`;
-    document.title = pageTitle;
-    setMetaContent('meta[name="description"]', data.personal.description);
-    setMetaContent('meta[name="author"]', data.personal.fullName);
-    setMetaContent('meta[property="og:title"]', pageTitle);
-    setMetaContent('meta[property="og:description"]', data.personal.description);
 
     renderGithubProjects();
 }

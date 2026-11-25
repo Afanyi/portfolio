@@ -3,18 +3,14 @@ export default {
         name: "Blasius Fornge",
         surname: "Afanyi",
         fullName: "Blasius Fornge Afanyi",
-        title: "Computer Science Student · Python & Full-Stack Developer",
+        title: "Junior Software Developer · Full-Stack with Backend Focus",
         description:
             "I build backend and web applications mainly with Python, FastAPI, PostgreSQL and Docker.",
         email: "afanyiblasius4@gmail.com",
-        phone: "+49 176 75281993",
         location: {
-            street: "Adlergasse Straße 15",
-            city: "64372 Ober-Ramstadt",
+            city: "Ober-Ramstadt",
             country: "Germany"
         },
-        nationality: "Cameroonian",
-        dateOfBirth: "August 1, 2002",
         githubUrl: "https://github.com/Afanyi",
         linkedinUrl: "https://www.linkedin.com/in/afanyi-blasius-fornge-7595a5226"
     },
@@ -50,7 +46,6 @@ export default {
         },
         contactLabels: {
             email: "Email",
-            phone: "Phone",
             location: "Location"
         },
         contactButtons: {
@@ -59,8 +54,6 @@ export default {
         },
         footer: {
             copyright: "© {year} {name}. All rights reserved.",
-            nationality: "Nationality",
-            dob: "Date of Birth"
         },
         projects: {
             profile: "Open GitHub Profile",
@@ -84,10 +77,23 @@ export default {
 
     experience: [
         {
+            title: "Bachelor Thesis – Web App for Technical Assessment Interviews",
+            company: "HCI Group, Hochschule Darmstadt",
+            location: "Remote",
+            period: "August 2026 – Present",
+            description: [
+                "Designed and prototyped a web app that analyzes students’ GitLab project contributions",
+                "Automated infrastructure with OpenStack, Terraform and Ansible; CI/CD with GitLab and Docker",
+                "Backend with Python, FastAPI, PostgreSQL and Redis; GitLab API integration",
+                "Interactive dashboards to visualize and compare project activity"
+            ],
+            tags: ["Python", "FastAPI", "PostgreSQL", "Redis", "GitLab API", "OpenStack", "Terraform", "Ansible", "GitLab CI/CD", "Docker"]
+        },
+        {
             title: "Web Development Intern",
             company: "ReiseFreudig",
             location: "Mannheim, Germany · On-site",
-            period: "April 2026 - Present",
+            period: "April 2026 – August 2026",
             description: [
                 "Modernizing multilingual websites using Mobirise, HTML, CSS and JavaScript",
                 "Improving page structures, navigation, forms and responsive layouts",
@@ -99,10 +105,23 @@ export default {
             tags: ["Mobirise", "HTML", "CSS", "JavaScript", "Python", "FastAPI", "PostgreSQL", "Docker", "Web Development"]
         },
         {
-            title: "Werkstudent / Holiday Job – Data Science",
-            company: "Sanofi – TMU PMX (DMPK)",
+            title: "Backend Developer – Juno E-Commerce & Delivery Platform",
+            company: "Group Project",
+            location: "Remote / Darmstadt",
+            period: "February 2026 – Present",
+            description: [
+                "Backend for an e-commerce platform with an integrated delivery system",
+                "REST APIs with TypeScript, Prisma and OpenAPI/Swagger",
+                "PostgreSQL/pgvector, Redis, Kafka, MinIO and Docker Compose",
+                "Integrated Python AI services and worker processes"
+            ],
+            tags: ["TypeScript", "Prisma", "OpenAPI/Swagger", "PostgreSQL/pgvector", "Redis", "Kafka", "MinIO", "Docker Compose", "Python"]
+        },
+        {
+            title: "Student Assistant (Summer Job) – Data Science",
+            company: "Sanofi TMU PMX (DMPK)",
             location: "Frankfurt, Germany",
-            period: "August 2025 - October 2025",
+            period: "August 2025 – October 2025",
             description: [
                 "Supported PBPK modeling by updating drug models with new expression profiles",
                 "Performed parameter identification and model fitting to improve prediction accuracy",
@@ -113,10 +132,10 @@ export default {
             tags: ["R", "RStudio", "VS Code", "PK-Sim", "MoBi", "Git", "Data Science", "PBPK Modeling"]
         },
         {
-            title: "Software Engineering - Pizza Backend Service",
+            title: "Software Engineering Project Lab – Order Management System",
             company: "Hochschule Darmstadt",
             location: "Darmstadt, Germany",
-            period: "October 2024 - Present",
+            period: "October 2024 – March 2025",
             description: [
                 "Built an order management backend using Python and FastAPI",
                 "Designed and tested REST API endpoints for pizza orders and related resources",
@@ -127,10 +146,10 @@ export default {
             tags: ["Python", "FastAPI", "PostgreSQL", "Docker", "Kubernetes", "CI/CD", "GitLab"]
         },
         {
-            title: "Game Development - DungeonCrawler",
+            title: "Game Development Project Lab – 2D Dungeon Crawler (C++/Qt)",
             company: "Hochschule Darmstadt",
             location: "Darmstadt, Germany",
-            period: "April 2024 - July 2024",
+            period: "April 2024 – August 2024",
             description: [
                 "Developed a 2D dungeon-crawler game with C++ and Qt",
                 "Implemented player movement, combat, item collection and basic game logic",
@@ -143,7 +162,7 @@ export default {
             title: "Math Tutor",
             company: "Private",
             location: "Douala, Cameroon",
-            period: "May 2022 - August 2022",
+            period: "January 2022 – October 2022",
             description: [
                 "Provided private mathematics tutoring to students",
                 "Explained mathematical concepts in a simple and structured way",
@@ -155,34 +174,22 @@ export default {
 
     education: [
         {
-            degree: "Bachelor of Science in Computer Science",
+            degree: "B.Sc. Computer Science",
             institution: "Hochschule Darmstadt",
-            period: "October 2023 - Present",
+            period: "2023 – Present",
             location: "Darmstadt, Germany"
         },
         {
-            degree: "DSH - Language Certificate C1",
-            institution: "Mariaspring",
-            period: "February 2023 - April 2023",
-            location: "Clausthal-Zellerfeld, Germany"
-        },
-        {
-            degree: "Certificate B1 and B2",
-            institution: "ÖSD Cameroon",
-            period: "September 2020 - April 2022",
-            location: "Douala, Cameroon"
-        },
-        {
-            degree: "GCE A Level Certificate (Abitur)",
+            degree: "GCE A Level",
             institution: "College Saint Laurent",
-            period: "September 2018 - June 2020",
+            period: "September 2018 – July 2020",
             location: "Douala, Cameroon"
         },
         {
-            degree: "GCE Ordinary Level Certificate",
-            institution: "Staff College",
-            period: "September 2013 - June 2018",
-            location: "Douala, Cameroon"
+            degree: "DSH C1",
+            institution: "Mariaspring",
+            period: "February 2023 – April 2023",
+            location: "Clausthal-Zellerfeld, Germany"
         }
     ],
 
